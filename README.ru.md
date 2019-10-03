@@ -1,5 +1,19 @@
 # Echo Server
 
+## Запросы и ответы
+
+### GET
+
+    GET http://localhost:<port>/<path>
+
+возвращает `<path>` в формате plain text. Параметры запроса в URL игнорируются.
+
+Примеры:
+
+`GET http://localhost:9009/abc/def/xyz` возвращает `/abc/def/xyz`
+
+`GET http://localhost:9009/foo?bar=1` возвращает `/foo`
+
 ## Node
 
 ### Подготовка
