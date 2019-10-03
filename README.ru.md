@@ -1,14 +1,21 @@
-:Echo Server
+# Echo Server
 
-::Docker
+## Docker
 
-:::Build image
+### Постройка image
 
-Command
+Команда
 
-    $ docker build . -t echosrv
+    $ docker build . -t echoserv
 
-builds a docker image under name `echosrv`.
+строит докеровский image с именем `echoserv`.
 
-:::Run container
+### Запуск контейнера
 
+    $ docker run -d 
+
+запускает image в первый раз, при этом создается контейнер с именем echoserv1. Сервер будет принимать запросы на порт 9009.
+
+    $ docker start echoserv1
+    
+запускает контейнер `echoserv1`, который был создан предыдущей командой.
