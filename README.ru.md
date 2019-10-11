@@ -4,15 +4,24 @@
 
 ### GET
 
+#### Ответ без ошибки
+
     GET http://localhost:<port>/<path>
 
-возвращает `<path>` в формате plain text. Параметры запроса в URL игнорируются.
+возвращает `<path>` в формате plain text. Параметры запроса в URL игнорируются. Полезно
+для тестирования доступности сервера.
 
 Примеры:
 
 `GET http://localhost:9009/abc/def/xyz` возвращает `/abc/def/xyz`
 
 `GET http://localhost:9009/foo?bar=1` возвращает `/foo`
+
+#### Ответ с ошибкой
+
+    GET http://localhost:<port>/error/<errno>
+
+возвращает ошибку с кодом `<errno>`. Полезно для тестирования обработки ошибок.
 
 ## Node
 
