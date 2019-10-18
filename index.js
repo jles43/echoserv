@@ -8,11 +8,11 @@ const requestHandler = function(req, resp) {
     var resptext = '';
     var respcode = 0;
     var reqUrl = url.parse(req.url);
-    //console.log('req.url :', req.url);
-    //console.log('req.method :', req.method);
-    //console.log('req.headers :', req.headers);
-    //console.log('reqUrl :', reqUrl);
-    
+    console.log('req.url :', req.url);
+    console.log('req.method :', req.method);
+    console.log('req.headers :', req.headers);
+    console.log('reqUrl :', reqUrl);
+
     if (req.method == 'GET') {
         // split path and remove empty strings
         var p = reqUrl.pathname.split('/').reduce(
@@ -21,7 +21,7 @@ const requestHandler = function(req, resp) {
                 return a;
             }, []
         );
-        //console.log('p :', p);
+        console.log('p :', p);
         if (p.length==2 && p[0]=='error') {
             var ival = p[1]-0;
             //console.log('ival :', ival);
@@ -32,10 +32,14 @@ const requestHandler = function(req, resp) {
         } else {
             resptext = reqUrl.pathname;
         }
+    } else if (req.method == 'PUT' || req.method == 'POST') {
+        // soll den Datenbuffer zurückgeben
+        // aber aktuell wird 405 zurückgegeben
+        respcode = 405; // Method Not Allowed
     } else {
         respcode = 405; // Method Not Allowed
     }
-    
+
     if (!respcode)
         respcode = 200;
     resp.statusCode = respcode;
