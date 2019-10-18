@@ -4,7 +4,8 @@ var
   got = require('got');
 
 const
-  url = 'http://localhost:9009';
+  port = '9201';
+  url = 'http://localhost:'+port;
 
 describe('GET method', function() {
   it('should return "/" with empty path', function() {
@@ -53,6 +54,15 @@ describe('GET method', function() {
     return got(url+'/abc?p1=v1&p2=v2&p3')
     .then(function(resp) {
       resp.body.should.be.equal('/abc');
+    });
+  });
+  it('should return error 555 for /error/555', function() {
+    return got(url+'/error/555')
+    .then(function(resp) {
+      throw new Error('should fail');
+    })
+    .catch(function(err) {
+      err.statusCode.should.be.equal(555);
     });
   });
 });
