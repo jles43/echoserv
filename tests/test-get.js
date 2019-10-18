@@ -1,11 +1,12 @@
+'use strict';
+
 var
   assert = require('assert'),
   should = require('should'),
   got = require('got');
 
-const
-  port = '9201';
-  url = 'http://localhost:'+port;
+const port = '9201';
+const url = 'http://localhost:'+port;
 
 describe('GET method', function() {
   it('should return "/" with empty path', function() {
@@ -63,6 +64,13 @@ describe('GET method', function() {
     })
     .catch(function(err) {
       err.statusCode.should.be.equal(555);
+    });
+  });
+  it('should return "/error/200" (path is /error/200)', function() {
+    return got(url+'/error/200')
+    .then(function(resp) {
+      resp.body.should.be.equal('/abc');
+      resp.statusCode.should.be.equal(200);
     });
   });
 });
