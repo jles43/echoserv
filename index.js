@@ -9,7 +9,8 @@ const returnResponse = function(resp, text, code) {
   if (!code)
     code = 200;
   resp.statusCode = code;
-  resp.end(text, 'utf8');
+  if (text) resp.write(text, 'utf8');
+  resp.end();
 };
 
 const requestHandler = function(req, resp) {
@@ -48,7 +49,7 @@ const requestHandler = function(req, resp) {
       data+=chunk;
     });
     req.on('end', function() {
-      console.log(req.method+' data: ', data);
+      console.log(req.method+' data: ', data, ', respcode:', respcode);
       if (respcode>=300) returnResponse(resp, '', respcode);
       else returnResponse(resp, data, respcode);
     });

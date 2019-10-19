@@ -30,11 +30,13 @@ describe('PUT method', function() {
       resp.statusCode.should.be.equal(201);
     });
   });
-  /*it('should return no data for error>=300', function() {
-    return got(url+'/error/500', {method: 'PUT', body: 'abcdef'})
+  it('should return no data for error>=300', function() {
+    return got(url+'/error/500', {method: 'PUT', body: 'abcdef', retry: 0})
     .then(function(resp) {
-      resp.body.should.be.equal('');
-      resp.statusCode.should.be.equal(500);
+      throw new Error('should fail');
+    })
+    .catch(function(err) {
+      err.statusCode.should.be.equal(500);
     });
-  });*/
+  });
 });
