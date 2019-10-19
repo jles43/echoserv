@@ -69,7 +69,7 @@ describe('GET method', function() {
   it('should return "/error/200" (path is /error/200)', function() {
     return got(url+'/error/200')
     .then(function(resp) {
-      resp.body.should.be.equal('/abc');
+      resp.body.should.be.equal('/error/200');
       resp.statusCode.should.be.equal(200);
     });
   });
