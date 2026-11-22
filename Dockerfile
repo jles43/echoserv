@@ -1,8 +1,8 @@
-FROM node:8.16-jessie
+FROM node:24-bookworm-slim
 
 COPY index.js /server/
 COPY package.json /server/
 
 WORKDIR /server
 
-CMD node index.js
+CMD ["node", "index.js"]
