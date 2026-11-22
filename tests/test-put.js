@@ -1,9 +1,11 @@
 'use strict';
 
-var
-  assert = require('assert'),
-  should = require('should'),
-  got = require('got');
+require('should');
+
+let got;
+before(async function() {
+  got = (await import('got')).default;
+});
 
 const port = '9201';
 const url = 'http://localhost:'+port;
@@ -31,7 +33,7 @@ const filled_body = function(url, meth, data) {
 const error_less_300 = function(url, meth, data, code) {
   return function() {
     code.should.be.within(200, 299);
-    return got(url+'/error/'+code, {method: meth, body: data, retry: 0})
+    return got(url+'/error/'+code, {method: meth, body: data, retry: {limit: 0}})
     .then(function(resp) {
       resp.body.should.be.equal(data);
       resp.statusCode.should.be.equal(code);
@@ -42,12 +44,15 @@ const error_less_300 = function(url, meth, data, code) {
 const error_300_and_above = function(url, meth, data, code) {
   return function() {
     code.should.be.above(299);
-    return got(url+'/error/'+code, {method: meth, body: data, retry: 0})
-    .then(function(resp) {
-      throw new Error('should fail');
+    return got(url+'/error/'+code, {
+      method: meth,
+      body: data,
+      retry: {limit: 0},
+      throwHttpErrors: false
     })
-    .catch(function(err) {
-      err.statusCode.should.be.equal(code);
+    .then(function(resp) {
+      resp.statusCode.should.be.equal(code);
+      resp.body.should.be.equal('');
     });
   };
 };

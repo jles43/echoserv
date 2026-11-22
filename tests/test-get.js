@@ -1,14 +1,16 @@
 'use strict';
 
-var
-  assert = require('assert'),
-  should = require('should'),
-  got = require('got');
+require('should');
+let got;
 
 const port = '9201';
 const url = 'http://localhost:'+port;
 
 describe('GET method', function() {
+  before(async function() {
+    got = (await import('got')).default;
+  });
+
   it('should return "/" with empty path', function() {
     return got(url)
     .then(function(resp) {
@@ -21,7 +23,7 @@ describe('GET method', function() {
       resp.body.should.be.equal('/');
     });
   });
-  it('should return "/" for ////', function() {
+  it('should return "////" for ////', function() {
     return got(url+'////')
     .then(function(resp) {
       resp.body.should.be.equal('////');
@@ -58,12 +60,9 @@ describe('GET method', function() {
     });
   });
   it('should return error 555 for /error/555', function() {
-    return got(url+'/error/555')
+    return got(url+'/error/555', {throwHttpErrors: false, retry: {limit: 0}})
     .then(function(resp) {
-      throw new Error('should fail');
-    })
-    .catch(function(err) {
-      err.statusCode.should.be.equal(555);
+      resp.statusCode.should.be.equal(555);
     });
   });
   it('should return "/error/200" (path is /error/200)', function() {
